@@ -4,3 +4,12 @@ node_js:
 - '0.12'
 - '4'
 - '5'
+
+deploy:
+  provider: npm
+  email: tobias.bieniek@gmx.de
+  api_key:
+    secure: gaGW2gsKeLXKkJobZam3Q0ZWXVkuXDXH4iC7phVPM9eesDjRPo57+bcZJhrPd1whPfVk59EPNIZPqX6aFx9Zqxykcx3nPjg9NmX7x30JZKpbKWaMVfsIC7BYWZbeTpona+QOm/8l8QbTvOtmS8sTB4WAGCJeIFR7hN2gUWaQOvOj4DOSfa0cbK9iWFxgQ2VcnvRGDz+ww29V79sAJHvvTxmjcpkk6pYTHFBPC8btpvvjg4nu5LLXuVTinzoW5Unhq2haAKxi0N90bCn9oMfZGA6r8mJ7QfAOblQ/Gza6NNBS+ERFRyPmUsjSFnyye1FIgtiVXvcIj3TuILTo6lHuD87cOVW/mmbcRqqFOvWcI6qBWKGL8zaMxAwOPQsgVB2Yc/1GtkgN3Q976pLdFBO1X2pTvJlWdchRAd3QeiM9BgZtGocFTLStlcDf9Mj8xw9m0XK8tLIBaDVLDWPBs5p0QAlqPwl0kIHaj/oEcEJ2LehNs4TO2zh+94ljXkocD86qZV7QmSx6YDWndnpV5Urp3PcSfwvBYQ2tj2QLUGmtlsvrQPXPjt2i9VIKuzoth18Lux2eG29iAKPh9dJhXj0TC6Z/6jf4YCpijKm8AAeV6RcU9Wa4D92LMON1igP21EfvLpyr56y6JfdB/iu+x5f8yCl42nmf1G1IU1A4ZN29jPQ=
+  on:
+    tags: true
+    repo: Turbo87/chai-files
