@@ -21,7 +21,7 @@ After importing `chai` add the following code to use `chai-files` assertions:
 
 ```js
 var chai = require('chai');
-var chaiFiles = require('../index');
+var chaiFiles = require('chai-files');
 
 chai.use(chaiFiles);
 
