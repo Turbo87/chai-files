@@ -46,6 +46,72 @@ describe('expect(file(...))', function() {
     });
   });
 
+  ['.to.equal', '.equals', '.to.eq'].forEach(function(methodDesc) {
+    var method = methodDesc.replace('.to', '').replace('.', '');
+
+    describe(methodDesc + '(...)', function() {
+      it('passes for file equal to string', function() {
+        expect(file('test/fixtures/foo.txt')).to[method]('This is a small fixture file called "foo.txt"!\n');
+      });
+
+      it('fails for file not equal to string', function() {
+        expect(function() {
+          expect(file('test/fixtures/foo.txt')).to[method]('large solid object');
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to equal \"large solid object\"');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.contain('small fixture file');
+          expect(err.expected).to.equal('large solid object');
+        });
+      });
+
+      it('fails for missing files', function() {
+        expect(function() {
+          expect(file('index.coffee')).to[method]('large solid object');
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
+      });
+    });
+  });
+
+
+  ['.to.not.equal', '.not.equals', '.to.not.eq'].forEach(function(methodDesc) {
+    var method = methodDesc.replace('.to', '').replace('.not.', '');
+
+    describe(methodDesc + '(...)', function() {
+      it('passes for file not equal to string', function() {
+        expect(file('test/fixtures/foo.txt')).to.not[method]('large solid object');
+      });
+
+      it('fails for file equal to string', function() {
+        expect(function() {
+          expect(file('test/fixtures/foo.txt')).to.not[method]('This is a small fixture file called "foo.txt"!\n');
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to not ' +
+            'equal \"This is a small fixture file called \"foo.txt\"!\n\"');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
+      });
+
+      it('fails for missing files', function() {
+        expect(function() {
+          expect(file('index.coffee')).to.not[method]('small fixture file');
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
+      });
+    });
+  });
+
   ['.to.include', '.to.contain', '.includes', '.contains'].forEach(function(methodDesc) {
     var method = methodDesc.replace('.to', '').replace('.', '');
 

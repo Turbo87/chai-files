@@ -48,6 +48,28 @@ FileHelper.prototype._loadContent = function() {
   }
 };
 
+FileHelper.prototype.equals = function(str) {
+  this._loadContent();
+  return this._content === str;
+};
+
+FileHelper.prototype.assertEquals = function(value) {
+  this.assertExists();
+  if (!this.equals(value)) {
+    var error = new Error('expected "' + this.path + '" to equal "' + value + '"');
+    error.actual = this._content;
+    error.expected = value;
+    throw error;
+  }
+};
+
+FileHelper.prototype.assertDoesNotEqual = function(value) {
+  this.assertExists();
+  if (this.equals(value)) {
+    throw new Error('expected "' + this.path + '" to not equal "' + value + '"');
+  }
+};
+
 FileHelper.prototype.contains = function(str) {
   this._loadContent();
   return this._content.indexOf(str) !== -1;

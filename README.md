@@ -41,6 +41,16 @@ expect(file('index.coffee')).to.not.exist;
 ```
 
 
+### expect(file(...)).to.equal(...)
+
+Check if the file content equals a string:
+
+```js
+expect(file('foo.txt')).to.equal('foo');
+expect(file('foo.txt')).to.not.equal('bar');
+```
+
+
 ### expect(file(...)).to.contain(...)
 
 Check if a file contains a string:

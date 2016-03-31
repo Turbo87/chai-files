@@ -34,6 +34,41 @@ module.exports = function(chai, utils) {
 
   Assertion.overwriteProperty('exist', exist);
 
+
+  /**
+   * ### .equal(value)
+   *
+   * Asserts that the file content equals a certain string.
+   *
+   *     expect(file('foo.txt')).to.equal('foo');
+   *     expect(file('foo.txt')).to.not.equal('bar');
+   *
+   * @name match
+   * @alias matches
+   * @param {String} value
+   * @namespace BDD
+   * @api public
+   */
+
+  function assertEqual(_super) {
+    return function(value) {
+      var obj = this._obj;
+      if (obj instanceof FileHelper) {
+        if (utils.flag(this, 'negate')) {
+          obj.assertDoesNotEqual(value);
+        } else {
+          obj.assertEquals(value);
+        }
+      } else {
+        _super.apply(this, arguments);
+      }
+    };
+  }
+
+  Assertion.overwriteMethod('equal', assertEqual);
+  Assertion.overwriteMethod('equals', assertEqual);
+  Assertion.overwriteMethod('eq', assertEqual);
+
   /**
    * ### .include(value)
    *
