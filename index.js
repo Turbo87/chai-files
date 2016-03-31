@@ -111,7 +111,13 @@ module.exports = function(chai, utils) {
     };
   });
 
-  Assertion.overwriteChainableMethod('contain', function(_super) {
+  function includeChainingBehavior(_super) {
+    return function() {
+      return _super.apply(this, arguments);
+    }
+  }
+
+  function include(_super) {
     return function(str) {
       var obj = this._obj;
       if (obj instanceof FileHelper) {
@@ -124,11 +130,12 @@ module.exports = function(chai, utils) {
         _super.apply(this, arguments);
       }
     };
-  }, function(_super) {
-    return function() {
-      return _super.apply(this, arguments);
-    }
-  });
+  }
+
+  Assertion.overwriteChainableMethod('include', include, includeChainingBehavior);
+  Assertion.overwriteChainableMethod('contain', include, includeChainingBehavior);
+  Assertion.overwriteChainableMethod('includes', include, includeChainingBehavior);
+  Assertion.overwriteChainableMethod('contains', include, includeChainingBehavior);
 
   function assertMatch(_super) {
     return function(regex) {
