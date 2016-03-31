@@ -1,0 +1,27 @@
+{
+  "name": "chai-files",
+  "version": "1.0.0",
+  "description": "file system assertions for chai",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Turbo87/chai-files.git"
+  },
+  "keywords": [
+    "assertions",
+    "testing",
+    "chai",
+    "chai-plugin",
+    "fs",
+    "filesystem"
+  ],
+  "author": "Tobias Bieniek <tobias.bieniek@gmx.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Turbo87/chai-files/issues"
+  },
+  "homepage": "https://github.com/Turbo87/chai-files#readme"
+}
