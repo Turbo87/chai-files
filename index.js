@@ -13,11 +13,17 @@ FileHelper.prototype._absPath = function() {
 
 FileHelper.prototype.exists = function() {
   if (this._exists === null) {
-    try {
-      fs.accessSync(this._absPath(), fs.F_OK);
-      this._exists = true;
-    } catch (e) {
-      this._exists = false
+    var path = this._absPath();
+
+    if (fs.existsSync) {
+      this._exists = fs.existsSync(path);
+    } else {
+      try {
+        fs.accessSync(path, fs.F_OK);
+        this._exists = true;
+      } catch (e) {
+        this._exists = false
+      }
     }
   }
 
