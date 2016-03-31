@@ -57,7 +57,7 @@ describe('expect(file(...))', function() {
         }).to.throw(function(err) {
           expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to contain \"large solid object\"');
           expect(err.showDiff).to.be.not.ok;
-          expect(err.actual).to[method]('small fixture file');
+          expect(err.actual).to.contain('small fixture file');
           expect(err.expected).to.equal('large solid object');
         });
       });
