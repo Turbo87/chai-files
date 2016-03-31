@@ -38,14 +38,18 @@ module.exports = function(chai, utils) {
   /**
    * ### .equal(value)
    *
-   * Asserts that the file content equals a certain string.
+   * Asserts that the file content equals a certain string or the content
+   * of another file.
    *
    *     expect(file('foo.txt')).to.equal('foo');
    *     expect(file('foo.txt')).to.not.equal('bar');
    *
+   *     expect(file('foo.txt')).to.equal(file('foo-copy.txt'));
+   *     expect(file('foo.txt')).to.not.equal(file('bar.txt'));
+   *
    * @name match
    * @alias matches
-   * @param {String} value
+   * @param {String|FileHelper} value
    * @namespace BDD
    * @api public
    */

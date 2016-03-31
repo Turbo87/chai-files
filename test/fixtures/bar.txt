@@ -1,0 +1,1 @@
+This is a different fixture file called "bar.txt"!

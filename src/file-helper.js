@@ -54,19 +54,35 @@ FileHelper.prototype.equals = function(str) {
 };
 
 FileHelper.prototype.assertEquals = function(value) {
+  var valueIsFile = (value instanceof FileHelper);
+
   this.assertExists();
-  if (!this.equals(value)) {
-    var error = new Error('expected "' + this.path + '" to equal "' + value + '"');
+  if (valueIsFile) {
+    value.assertExists();
+    value._loadContent();
+  }
+
+  var str = valueIsFile ? value._content : value;
+  if (!this.equals(str)) {
+    var error = new Error('expected "' + this.path + '" to equal "' + (valueIsFile ? value.path : value) + '"');
     error.actual = this._content;
-    error.expected = value;
+    error.expected = str;
     throw error;
   }
 };
 
 FileHelper.prototype.assertDoesNotEqual = function(value) {
+  var valueIsFile = (value instanceof FileHelper);
+
   this.assertExists();
-  if (this.equals(value)) {
-    throw new Error('expected "' + this.path + '" to not equal "' + value + '"');
+  if (valueIsFile) {
+    value.assertExists();
+    value._loadContent();
+  }
+
+  var str = valueIsFile ? value._content : value;
+  if (this.equals(str)) {
+    throw new Error('expected "' + this.path + '" to not equal "' + (valueIsFile ? value.path : value) + '"');
   }
 };
 

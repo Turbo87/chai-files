@@ -76,6 +76,43 @@ describe('expect(file(...))', function() {
         });
       });
     });
+
+    describe(methodDesc + '(file(...))', function() {
+      it('passes for file equal to other file', function() {
+        expect(file('test/fixtures/foo.txt')).to[method](file('test/fixtures/foo-copy.txt'));
+      });
+
+      it('fails for file not equal to other file', function() {
+        expect(function() {
+          expect(file('test/fixtures/foo.txt')).to[method](file('test/fixtures/bar.txt'));
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to equal \"test/fixtures/bar.txt\"');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.contain('small fixture file');
+          expect(err.expected).to.contain('different fixture file');
+        });
+      });
+
+      it('fails for missing files', function() {
+        expect(function() {
+          expect(file('test/fixtures/foo.txt')).to[method](file('test/fixtures/baz.txt'));
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
+
+        expect(function() {
+          expect(file('test/fixtures/baz.txt')).to[method](file('test/fixtures/foo.txt'));
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
+      });
+    });
   });
 
 
@@ -104,6 +141,44 @@ describe('expect(file(...))', function() {
           expect(file('index.coffee')).to.not[method]('small fixture file');
         }).to.throw(function(err) {
           expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
+      });
+    });
+
+    describe(methodDesc + '(file(...))', function() {
+      it('passes for file not equal to another file', function() {
+        expect(file('test/fixtures/foo.txt')).to.not[method](file('test/fixtures/bar.txt'));
+      });
+
+      it('fails for file equal to another file', function() {
+        expect(function() {
+          expect(file('test/fixtures/foo.txt')).to.not[method](file('test/fixtures/foo-copy.txt'));
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to not ' +
+            'equal \"test/fixtures/foo-copy.txt\"');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
+      });
+
+      it('fails for missing files', function() {
+        expect(function() {
+          expect(file('test/fixtures/foo.txt')).to.not[method](file('test/fixtures/baz.txt'));
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
+
+        expect(function() {
+          expect(file('test/fixtures/baz.txt')).to.not[method](file('test/fixtures/foo.txt'));
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/baz.txt\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
