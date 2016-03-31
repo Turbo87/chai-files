@@ -18,7 +18,7 @@
     "fs",
     "filesystem"
   ],
-  "author": "Tobias Bieniek <tobias.bieniek@gmx.de>",
+  "author": "Tobias Bieniek <tobias.bieniek@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Turbo87/chai-files/issues"
