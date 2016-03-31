@@ -43,8 +43,10 @@ describe('expect(file(...))', function() {
     });
   });
 
-  ['include', 'contain', 'includes', 'contains'].forEach(function(method) {
-    describe('.to.' + method, function() {
+  ['.to.include', '.to.contain', '.includes', '.contains'].forEach(function(methodDesc) {
+    var method = methodDesc.replace('.to', '').replace('.', '');
+
+    describe(methodDesc + '(...)', function() {
       it('passes for file containing search string', function() {
         expect(file('test/fixtures/foo.txt')).to[method]('small fixture file');
       });
@@ -71,8 +73,13 @@ describe('expect(file(...))', function() {
         });
       });
     });
+  });
 
-    describe('.to.not.' + method, function() {
+
+  ['.to.not.include', '.to.not.contain', '.not.includes', '.not.contains'].forEach(function(methodDesc) {
+    var method = methodDesc.replace('.to', '').replace('.not.', '');
+
+    describe(methodDesc + '(...)', function() {
       it('passes for file missing search string', function() {
         expect(file('test/fixtures/foo.txt')).to.not[method]('large solid object');
       });
@@ -101,8 +108,10 @@ describe('expect(file(...))', function() {
     });
   });
 
-  ['match', 'matches'].forEach(function(method) {
-    describe('.to.' + method, function() {
+  ['.to.match', '.matches'].forEach(function(methodDesc) {
+    var method = methodDesc.replace('.to', '').replace('.', '');
+
+    describe(methodDesc + '(/.../)', function() {
       it('passes for file matching search expression', function() {
         expect(file('test/fixtures/foo.txt')).to[method](/small.*file/);
       });
@@ -129,8 +138,12 @@ describe('expect(file(...))', function() {
         });
       });
     });
+  });
 
-    describe('.to.not.' + method, function() {
+  ['.to.not.match', '.not.matches'].forEach(function(methodDesc) {
+    var method = methodDesc.replace('.to', '').replace('.not.', '');
+
+    describe(methodDesc + '(/.../)', function() {
       it('passes for file not matching search expression', function() {
         expect(file('test/fixtures/foo.txt')).to.not[method](/large.*object/);
       });
