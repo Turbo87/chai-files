@@ -99,58 +99,60 @@ describe('expect(file(...))', function() {
     });
   });
 
-  describe('.to.match', function() {
-    it('passes for file matching search expression', function() {
-      expect(file('test/fixtures/foo.txt')).to.match(/small.*file/);
-    });
+  ['match', 'matches'].forEach(function(method) {
+    describe('.to.' + method, function() {
+      it('passes for file matching search expression', function() {
+        expect(file('test/fixtures/foo.txt')).to[method](/small.*file/);
+      });
 
-    it('fails for file not matching search expression', function() {
-      expect(function() {
-        expect(file('test/fixtures/foo.txt')).to.match(/large.*object/);
-      }).to.throw(function(err) {
-        expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to match /large.*object/');
-        expect(err.showDiff).to.be.not.ok;
-        expect(err.actual).to.contain('small fixture file');
-        expect(err.expected.toString()).to.equal('/large.*object/');
+      it('fails for file not matching search expression', function() {
+        expect(function() {
+          expect(file('test/fixtures/foo.txt')).to[method](/large.*object/);
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to match /large.*object/');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.contain('small fixture file');
+          expect(err.expected.toString()).to.equal('/large.*object/');
+        });
+      });
+
+      it('fails for missing files', function() {
+        expect(function() {
+          expect(file('index.coffee')).to[method](/large.*object/);
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
       });
     });
 
-    it('fails for missing files', function() {
-      expect(function() {
-        expect(file('index.coffee')).to.match(/large.*object/);
-      }).to.throw(function(err) {
-        expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
-        expect(err.showDiff).to.be.not.ok;
-        expect(err.actual).to.not.exist;
-        expect(err.expected).to.not.exist;
+    describe('.to.not.' + method, function() {
+      it('passes for file not matching search expression', function() {
+        expect(file('test/fixtures/foo.txt')).to.not[method](/large.*object/);
       });
-    });
-  });
 
-  describe('.to.not.match', function() {
-    it('passes for file not matching search expression', function() {
-      expect(file('test/fixtures/foo.txt')).to.not.match(/large.*object/);
-    });
-
-    it('fails for file matching search expression', function() {
-      expect(function() {
-        expect(file('test/fixtures/foo.txt')).to.not.match(/small.*file/);
-      }).to.throw(function(err) {
-        expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to not match /small.*file/');
-        expect(err.showDiff).to.be.not.ok;
-        expect(err.actual).to.not.exist;
-        expect(err.expected).to.not.exist;
+      it('fails for file matching search expression', function() {
+        expect(function() {
+          expect(file('test/fixtures/foo.txt')).to.not[method](/small.*file/);
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to not match /small.*file/');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
       });
-    });
 
-    it('fails for missing files', function() {
-      expect(function() {
-        expect(file('index.coffee')).to.not.match(/small.*file/);
-      }).to.throw(function(err) {
-        expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
-        expect(err.showDiff).to.be.not.ok;
-        expect(err.actual).to.not.exist;
-        expect(err.expected).to.not.exist;
+      it('fails for missing files', function() {
+        expect(function() {
+          expect(file('index.coffee')).to.not[method](/small.*file/);
+        }).to.throw(function(err) {
+          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.showDiff).to.be.not.ok;
+          expect(err.actual).to.not.exist;
+          expect(err.expected).to.not.exist;
+        });
       });
     });
   });

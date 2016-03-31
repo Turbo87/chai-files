@@ -130,7 +130,7 @@ module.exports = function(chai, utils) {
     }
   });
 
-  Assertion.overwriteMethod('match', function(_super) {
+  function assertMatch(_super) {
     return function(regex) {
       var obj = this._obj;
       if (obj instanceof FileHelper) {
@@ -143,7 +143,10 @@ module.exports = function(chai, utils) {
         _super.apply(this, arguments);
       }
     };
-  });
+  }
+
+  Assertion.overwriteMethod('match', assertMatch);
+  Assertion.overwriteMethod('matches', assertMatch);
 };
 
 module.exports.file = function(path) {
