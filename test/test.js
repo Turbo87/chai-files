@@ -1,6 +1,6 @@
 var chai = require('chai');
-var chaiFiles = require('./index');
-var throwHelper = require('./test-helpers/throw-helper');
+var chaiFiles = require('../index');
+var throwHelper = require('./helpers/throw-helper');
 
 chai.use(chaiFiles);
 chai.use(throwHelper);
