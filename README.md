@@ -51,6 +51,16 @@ expect(file('foo.txt')).to.not.contain('bar');
 ```
 
 
+### expect(file(...)).to.match(/.../)
+
+Check if a file matches a regular expression:
+
+```js
+expect(file('foo.txt')).to.match(/fo+/);
+expect(file('foo.txt')).to.not.match(/bar?/);
+```
+
+
 License
 ------------------------------------------------------------------------------
 chai-files is licensed under the [MIT License](LICENSE).

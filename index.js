@@ -70,6 +70,28 @@ FileHelper.prototype.assertDoesNotContain = function(str) {
   }
 };
 
+FileHelper.prototype.matches = function(regex) {
+  this._loadContent();
+  return regex.test(this._content);
+};
+
+FileHelper.prototype.assertMatches = function(regex) {
+  this.assertExists();
+  if (!this.matches(regex)) {
+    var error = new Error('expected "' + this.path + '" to match ' + regex);
+    error.actual = this._content;
+    error.expected = regex;
+    throw error;
+  }
+};
+
+FileHelper.prototype.assertDoesNotMatch = function(regex) {
+  this.assertExists();
+  if (this.matches(regex)) {
+    throw new Error('expected "' + this.path + '" to not match ' + regex);
+  }
+};
+
 module.exports = function(chai, utils) {
   var Assertion = chai.Assertion;
 
@@ -106,6 +128,21 @@ module.exports = function(chai, utils) {
     return function() {
       return _super.apply(this, arguments);
     }
+  });
+
+  Assertion.overwriteMethod('match', function(_super) {
+    return function(regex) {
+      var obj = this._obj;
+      if (obj instanceof FileHelper) {
+        if (utils.flag(this, 'negate')) {
+          obj.assertDoesNotMatch(regex);
+        } else {
+          obj.assertMatches(regex);
+        }
+      } else {
+        _super.apply(this, arguments);
+      }
+    };
   });
 };
 
