@@ -46,7 +46,7 @@ module.exports = function(chai, utils) {
    * @alias contain
    * @alias includes
    * @alias contains
-   * @param {String} str
+   * @param {String} value
    * @namespace BDD
    * @api public
    */
@@ -58,13 +58,13 @@ module.exports = function(chai, utils) {
   }
 
   function include(_super) {
-    return function(str) {
+    return function(value) {
       var obj = this._obj;
       if (obj instanceof FileHelper) {
         if (utils.flag(this, 'negate')) {
-          obj.assertDoesNotContain(str);
+          obj.assertDoesNotContain(value);
         } else {
-          obj.assertContains(str);
+          obj.assertContains(value);
         }
       } else {
         _super.apply(this, arguments);
