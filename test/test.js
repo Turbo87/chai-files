@@ -1,3 +1,4 @@
+var mocha = require('mocha');
 var chai = require('chai');
 var chaiFiles = require('../index');
 var throwHelper = require('./helpers/throw-helper');
@@ -5,6 +6,8 @@ var throwHelper = require('./helpers/throw-helper');
 chai.use(chaiFiles);
 chai.use(throwHelper);
 
+var describe = mocha.describe;
+var it = mocha.it;
 var expect = chai.expect;
 var file = chaiFiles.file;
 
