@@ -45,15 +45,15 @@ Object.defineProperty(FileHelper.prototype, 'content', {
   }
 });
 
-FileHelper.prototype.assertExists = function() {
+FileHelper.prototype.assertExists = function(ssf) {
   if (!this.exists) {
-    throw new AssertionError('expected "' + this.path + '" to exist');
+    throw new AssertionError('expected "' + this.path + '" to exist', {}, ssf);
   }
 };
 
-FileHelper.prototype.assertDoesNotExist = function() {
+FileHelper.prototype.assertDoesNotExist = function(ssf) {
   if (this.exists) {
-    throw new AssertionError('expected "' + this.path + '" to not exist');
+    throw new AssertionError('expected "' + this.path + '" to not exist', {}, ssf);
   }
 };
 
@@ -61,12 +61,12 @@ FileHelper.prototype.equals = function(str) {
   return this.content === str;
 };
 
-FileHelper.prototype.assertEquals = function(value) {
+FileHelper.prototype.assertEquals = function(value, ssf) {
   var valueIsFile = (value instanceof FileHelper);
 
-  this.assertExists();
+  this.assertExists(ssf);
   if (valueIsFile) {
-    value.assertExists();
+    value.assertExists(ssf);
   }
 
   var str = valueIsFile ? value.content : value;
@@ -74,21 +74,21 @@ FileHelper.prototype.assertEquals = function(value) {
     throw new AssertionError('expected "' + this.path + '" to equal "' + (valueIsFile ? value.path : value) + '"', {
       actual: this.content,
       expected: str,
-    });
+    }, ssf);
   }
 };
 
-FileHelper.prototype.assertDoesNotEqual = function(value) {
+FileHelper.prototype.assertDoesNotEqual = function(value, ssf) {
   var valueIsFile = (value instanceof FileHelper);
 
-  this.assertExists();
+  this.assertExists(ssf);
   if (valueIsFile) {
-    value.assertExists();
+    value.assertExists(ssf);
   }
 
   var str = valueIsFile ? value.content : value;
   if (this.equals(str)) {
-    throw new AssertionError('expected "' + this.path + '" to not equal "' + (valueIsFile ? value.path : value) + '"');
+    throw new AssertionError('expected "' + this.path + '" to not equal "' + (valueIsFile ? value.path : value) + '"', {}, ssf);
   }
 };
 
@@ -96,20 +96,20 @@ FileHelper.prototype.contains = function(str) {
   return this.content.indexOf(str) !== -1;
 };
 
-FileHelper.prototype.assertContains = function(str) {
-  this.assertExists();
+FileHelper.prototype.assertContains = function(str, ssf) {
+  this.assertExists(ssf);
   if (!this.contains(str)) {
     throw new AssertionError('expected "' + this.path + '" to contain "' + str + '"', {
       actual: this.content,
       expected: str,
-    });
+    }, ssf);
   }
 };
 
-FileHelper.prototype.assertDoesNotContain = function(str) {
-  this.assertExists();
+FileHelper.prototype.assertDoesNotContain = function(str, ssf) {
+  this.assertExists(ssf);
   if (this.contains(str)) {
-    throw new AssertionError('expected "' + this.path + '" to not contain "' + str + '"');
+    throw new AssertionError('expected "' + this.path + '" to not contain "' + str + '"', {}, ssf);
   }
 };
 
@@ -117,20 +117,20 @@ FileHelper.prototype.matches = function(regex) {
   return regex.test(this.content);
 };
 
-FileHelper.prototype.assertMatches = function(regex) {
-  this.assertExists();
+FileHelper.prototype.assertMatches = function(regex, ssf) {
+  this.assertExists(ssf);
   if (!this.matches(regex)) {
     throw new AssertionError('expected "' + this.path + '" to match ' + regex, {
       actual: this.content,
       expected: regex,
-    });
+    }, ssf);
   }
 };
 
-FileHelper.prototype.assertDoesNotMatch = function(regex) {
-  this.assertExists();
+FileHelper.prototype.assertDoesNotMatch = function(regex, ssf) {
+  this.assertExists(ssf);
   if (this.matches(regex)) {
-    throw new AssertionError('expected "' + this.path + '" to not match ' + regex);
+    throw new AssertionError('expected "' + this.path + '" to not match ' + regex, {}, ssf);
   }
 };
 

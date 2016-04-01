@@ -20,10 +20,12 @@ module.exports = function(chai, utils) {
     return function() {
       var obj = this._obj;
       if (obj instanceof FileHelper) {
+        var ssf = utils.flag(this, 'ssfi');
+
         if (utils.flag(this, 'negate')) {
-          obj.assertDoesNotExist();
+          obj.assertDoesNotExist(ssf);
         } else {
-          obj.assertExists();
+          obj.assertExists(ssf);
         }
 
       } else {
@@ -58,11 +60,14 @@ module.exports = function(chai, utils) {
     return function(value) {
       var obj = this._obj;
       if (obj instanceof FileHelper) {
+        var ssf = utils.flag(this, 'ssfi');
+
         if (utils.flag(this, 'negate')) {
-          obj.assertDoesNotEqual(value);
+          obj.assertDoesNotEqual(value, ssf);
         } else {
-          obj.assertEquals(value);
+          obj.assertEquals(value, ssf);
         }
+
       } else {
         _super.apply(this, arguments);
       }
@@ -100,11 +105,14 @@ module.exports = function(chai, utils) {
     return function(value) {
       var obj = this._obj;
       if (obj instanceof FileHelper) {
+        var ssf = utils.flag(this, 'ssfi');
+
         if (utils.flag(this, 'negate')) {
-          obj.assertDoesNotContain(value);
+          obj.assertDoesNotContain(value, ssf);
         } else {
-          obj.assertContains(value);
+          obj.assertContains(value, ssf);
         }
+
       } else {
         _super.apply(this, arguments);
       }
@@ -135,11 +143,14 @@ module.exports = function(chai, utils) {
     return function(regex) {
       var obj = this._obj;
       if (obj instanceof FileHelper) {
+        var ssf = utils.flag(this, 'ssfi');
+
         if (utils.flag(this, 'negate')) {
-          obj.assertDoesNotMatch(regex);
+          obj.assertDoesNotMatch(regex, ssf);
         } else {
-          obj.assertMatches(regex);
+          obj.assertMatches(regex, ssf);
         }
+
       } else {
         _super.apply(this, arguments);
       }
