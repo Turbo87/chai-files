@@ -31,7 +31,7 @@ var file = chaiFiles.file;
 ```
 
 
-### expect(file(...)).to.exist
+### .to.exist
 
 Check if a file exist:
 
@@ -41,7 +41,7 @@ expect(file('index.coffee')).to.not.exist;
 ```
 
 
-### expect(file(...)).to.equal(...)
+### .to.equal(...)
 
 Check if the file content equals a string:
 
@@ -51,7 +51,7 @@ expect(file('foo.txt')).to.not.equal('bar');
 ```
 
 
-### expect(file(...)).to.equal(file(...))
+### .to.equal(file(...))
 
 Check if the file equals another file:
 
@@ -61,7 +61,7 @@ expect(file('foo.txt')).to.not.equal(file('bar.txt'));
 ```
 
 
-### expect(file(...)).to.contain(...)
+### .to.contain(...)
 
 Check if a file contains a string:
 
@@ -71,7 +71,7 @@ expect(file('foo.txt')).to.not.contain('bar');
 ```
 
 
-### expect(file(...)).to.match(/.../)
+### .to.match(/.../)
 
 Check if a file matches a regular expression:
 
