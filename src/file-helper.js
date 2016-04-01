@@ -134,6 +134,10 @@ FileHelper.prototype.assertDoesNotMatch = function(regex) {
   }
 };
 
+FileHelper.prototype.inspect = function() {
+  return 'file(\'' + this.path + '\')';
+};
+
 function file(path) {
   return new FileHelper(path);
 }
