@@ -21,7 +21,7 @@ describe('expect(file(...))', function() {
       expect(function() {
         expect(file('index.coffee')).to.exist;
       }).to.throw(function(err) {
-        expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+        expect(err.toString()).to.equal('AssertionError: expected \"index.coffee\" to exist');
         expect(err.showDiff).to.be.not.ok;
         expect(err.actual).to.not.exist;
         expect(err.expected).to.not.exist;
@@ -38,7 +38,7 @@ describe('expect(file(...))', function() {
       expect(function() {
         expect(file('index.js')).to.not.exist;
       }).to.throw(function(err) {
-        expect(err.toString()).to.equal('Error: expected \"index.js\" to not exist');
+        expect(err.toString()).to.equal('AssertionError: expected \"index.js\" to not exist');
         expect(err.showDiff).to.be.not.ok;
         expect(err.actual).to.not.exist;
         expect(err.expected).to.not.exist;
@@ -58,7 +58,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to[method]('large solid object');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to equal \"large solid object\"');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to equal \"large solid object\"');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.contain('small fixture file');
           expect(err.expected).to.equal('large solid object');
@@ -69,7 +69,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('index.coffee')).to[method]('large solid object');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"index.coffee\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -86,7 +86,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to[method](file('test/fixtures/bar.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to equal \"test/fixtures/bar.txt\"');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to equal \"test/fixtures/bar.txt\"');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.contain('small fixture file');
           expect(err.expected).to.contain('different fixture file');
@@ -97,7 +97,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to[method](file('test/fixtures/baz.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/baz.txt\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -106,7 +106,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/baz.txt')).to[method](file('test/fixtures/foo.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/baz.txt\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -128,7 +128,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to.not[method]('This is a small fixture file called "foo.txt"!\n');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to not ' +
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to not ' +
             'equal \"This is a small fixture file called \"foo.txt\"!\n\"');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
@@ -140,7 +140,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('index.coffee')).to.not[method]('small fixture file');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"index.coffee\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -157,7 +157,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to.not[method](file('test/fixtures/foo-copy.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to not ' +
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to not ' +
             'equal \"test/fixtures/foo-copy.txt\"');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
@@ -169,7 +169,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to.not[method](file('test/fixtures/baz.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/baz.txt\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -178,7 +178,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/baz.txt')).to.not[method](file('test/fixtures/foo.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/baz.txt\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -199,7 +199,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to[method]('large solid object');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to contain \"large solid object\"');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to contain \"large solid object\"');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.contain('small fixture file');
           expect(err.expected).to.equal('large solid object');
@@ -210,7 +210,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('index.coffee')).to[method]('large solid object');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"index.coffee\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -232,7 +232,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to.not[method]('small fixture file');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to not contain \"small fixture file\"');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to not contain \"small fixture file\"');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -243,7 +243,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('index.coffee')).to.not[method]('small fixture file');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"index.coffee\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -264,7 +264,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to[method](/large.*object/);
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to match /large.*object/');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to match /large.*object/');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.contain('small fixture file');
           expect(err.expected.toString()).to.equal('/large.*object/');
@@ -275,7 +275,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('index.coffee')).to[method](/large.*object/);
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"index.coffee\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -296,7 +296,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to.not[method](/small.*file/);
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"test/fixtures/foo.txt\" to not match /small.*file/');
+          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to not match /small.*file/');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -307,7 +307,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('index.coffee')).to.not[method](/small.*file/);
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('Error: expected \"index.coffee\" to exist');
+          expect(err.toString()).to.equal('AssertionError: expected \"index.coffee\" to exist');
           expect(err.showDiff).to.be.not.ok;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;

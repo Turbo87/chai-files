@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var AssertionError = require('assertion-error');
 
 function FileHelper(path) {
   this.path = path;
@@ -46,13 +47,13 @@ Object.defineProperty(FileHelper.prototype, 'content', {
 
 FileHelper.prototype.assertExists = function() {
   if (!this.exists) {
-    throw new Error('expected "' + this.path + '" to exist');
+    throw new AssertionError('expected "' + this.path + '" to exist');
   }
 };
 
 FileHelper.prototype.assertDoesNotExist = function() {
   if (this.exists) {
-    throw new Error('expected "' + this.path + '" to not exist');
+    throw new AssertionError('expected "' + this.path + '" to not exist');
   }
 };
 
@@ -70,10 +71,10 @@ FileHelper.prototype.assertEquals = function(value) {
 
   var str = valueIsFile ? value.content : value;
   if (!this.equals(str)) {
-    var error = new Error('expected "' + this.path + '" to equal "' + (valueIsFile ? value.path : value) + '"');
-    error.actual = this.content;
-    error.expected = str;
-    throw error;
+    throw new AssertionError('expected "' + this.path + '" to equal "' + (valueIsFile ? value.path : value) + '"', {
+      actual: this.content,
+      expected: str,
+    });
   }
 };
 
@@ -87,7 +88,7 @@ FileHelper.prototype.assertDoesNotEqual = function(value) {
 
   var str = valueIsFile ? value.content : value;
   if (this.equals(str)) {
-    throw new Error('expected "' + this.path + '" to not equal "' + (valueIsFile ? value.path : value) + '"');
+    throw new AssertionError('expected "' + this.path + '" to not equal "' + (valueIsFile ? value.path : value) + '"');
   }
 };
 
@@ -98,17 +99,17 @@ FileHelper.prototype.contains = function(str) {
 FileHelper.prototype.assertContains = function(str) {
   this.assertExists();
   if (!this.contains(str)) {
-    var error = new Error('expected "' + this.path + '" to contain "' + str + '"');
-    error.actual = this.content;
-    error.expected = str;
-    throw error;
+    throw new AssertionError('expected "' + this.path + '" to contain "' + str + '"', {
+      actual: this.content,
+      expected: str,
+    });
   }
 };
 
 FileHelper.prototype.assertDoesNotContain = function(str) {
   this.assertExists();
   if (this.contains(str)) {
-    throw new Error('expected "' + this.path + '" to not contain "' + str + '"');
+    throw new AssertionError('expected "' + this.path + '" to not contain "' + str + '"');
   }
 };
 
@@ -119,17 +120,17 @@ FileHelper.prototype.matches = function(regex) {
 FileHelper.prototype.assertMatches = function(regex) {
   this.assertExists();
   if (!this.matches(regex)) {
-    var error = new Error('expected "' + this.path + '" to match ' + regex);
-    error.actual = this.content;
-    error.expected = regex;
-    throw error;
+    throw new AssertionError('expected "' + this.path + '" to match ' + regex, {
+      actual: this.content,
+      expected: regex,
+    });
   }
 };
 
 FileHelper.prototype.assertDoesNotMatch = function(regex) {
   this.assertExists();
   if (this.matches(regex)) {
-    throw new Error('expected "' + this.path + '" to not match ' + regex);
+    throw new AssertionError('expected "' + this.path + '" to not match ' + regex);
   }
 };
 
