@@ -45,6 +45,12 @@ Object.defineProperty(FileHelper.prototype, 'content', {
   }
 });
 
+Object.defineProperty(FileHelper.prototype, 'isEmpty', {
+  get: function() {
+    return this.content === '';
+  }
+});
+
 FileHelper.prototype.assertExists = function(ssf) {
   if (!this.exists) {
     throw new AssertionError('expected "' + this.path + '" to exist', {}, ssf);
@@ -89,6 +95,25 @@ FileHelper.prototype.assertDoesNotEqual = function(value, ssf) {
   var str = valueIsFile ? value.content : value;
   if (this.equals(str)) {
     throw new AssertionError('expected "' + this.path + '" to not equal "' + (valueIsFile ? value.path : value) + '"', {}, ssf);
+  }
+};
+
+FileHelper.prototype.assertIsEmpty = function(ssf) {
+  this.assertExists(ssf);
+
+  if (!this.isEmpty) {
+    throw new AssertionError('expected "' + this.path + '" to be empty', {
+      actual: this.content,
+      expected: '',
+    }, ssf);
+  }
+};
+
+FileHelper.prototype.assertIsNotEmpty = function(ssf) {
+  this.assertExists(ssf);
+
+  if (this.isEmpty) {
+    throw new AssertionError('expected "' + this.path + '" to not be empty', {}, ssf);
   }
 };
 

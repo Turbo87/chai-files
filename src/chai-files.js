@@ -78,6 +78,41 @@ module.exports = function(chai, utils) {
   Assertion.overwriteMethod('equals', assertEqual);
   Assertion.overwriteMethod('eq', assertEqual);
 
+
+  /**
+   * ### .empty
+   *
+   * Asserts that a file is empty.
+   *
+   *     expect(file('empty.txt')).to.be.empty;
+   *     expect(file('foo.txt')).to.not.be.empty;
+   *
+   * @name empty
+   * @namespace BDD
+   * @api public
+   */
+
+  function empty(_super) {
+    return function() {
+      var obj = this._obj;
+      if (obj instanceof FileHelper) {
+        var ssf = utils.flag(this, 'ssfi');
+
+        if (utils.flag(this, 'negate')) {
+          obj.assertIsNotEmpty(ssf);
+        } else {
+          obj.assertIsEmpty(ssf);
+        }
+
+      } else {
+        _super.call(this);
+      }
+    };
+  }
+
+  Assertion.overwriteProperty('empty', empty);
+
+
   /**
    * ### .include(value)
    *

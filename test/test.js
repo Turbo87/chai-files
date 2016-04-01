@@ -187,6 +187,62 @@ describe('expect(file(...))', function() {
     });
   });
 
+  describe('.to.be.empty', function() {
+    it('passes for empty files', function() {
+      expect(file('test/fixtures/empty.txt')).to.be.empty;
+    });
+
+    it('fails for non-empty files', function() {
+      expect(function() {
+        expect(file('test/fixtures/foo.txt')).to.be.empty;
+      }).to.throw(function(err) {
+        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to be empty');
+        expect(err.showDiff).to.be.not.ok;
+        expect(err.actual).to.contain('foo');
+        expect(err.expected).to.equal('');
+      });
+    });
+
+    it('fails for missing files', function() {
+      expect(function() {
+        expect(file('test/fixtures/missing.txt')).to.be.empty;
+      }).to.throw(function(err) {
+        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+        expect(err.showDiff).to.be.not.ok;
+        expect(err.actual).to.not.exist;
+        expect(err.expected).to.not.exist;
+      });
+    });
+  });
+
+  describe('.to.not.be.empty', function() {
+    it('passes for non-empty files', function() {
+      expect(file('test/fixtures/foo.txt')).to.not.be.empty;
+    });
+
+    it('fails for empty files', function() {
+      expect(function() {
+        expect(file('test/fixtures/empty.txt')).to.not.be.empty;
+      }).to.throw(function(err) {
+        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/empty.txt\" to not be empty');
+        expect(err.showDiff).to.be.not.ok;
+        expect(err.actual).to.not.exist;
+        expect(err.expected).to.not.exist;
+      });
+    });
+
+    it('fails for missing files', function() {
+      expect(function() {
+        expect(file('test/fixtures/missing.txt')).to.not.be.empty;
+      }).to.throw(function(err) {
+        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+        expect(err.showDiff).to.be.not.ok;
+        expect(err.actual).to.not.exist;
+        expect(err.expected).to.not.exist;
+      });
+    });
+  });
+
   ['.to.include', '.to.contain', '.includes', '.contains'].forEach(function(methodDesc) {
     var method = methodDesc.replace('.to', '').replace('.', '');
 
