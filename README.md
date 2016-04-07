@@ -28,16 +28,20 @@ chai.use(chaiFiles);
 
 var expect = chai.expect;
 var file = chaiFiles.file;
+var dir = chaiFiles.dir;
 ```
 
 
 ### .to.exist
 
-Check if a file exist:
+Check if a file or directory exist:
 
 ```js
 expect(file('index.js')).to.exist;
 expect(file('index.coffee')).to.not.exist;
+
+expect(dir('foo')).to.exist;
+expect(dir('missing')).to.not.exist;
 ```
 
 
