@@ -34,6 +34,22 @@ Object.defineProperty(DirectoryHelper.prototype, 'exists', {
   }
 });
 
+Object.defineProperty(DirectoryHelper.prototype, 'content', {
+  get: function() {
+    if (this._content === null) {
+      this._content = fs.readdirSync(this.absolutePath);
+    }
+
+    return this._content;
+  }
+});
+
+Object.defineProperty(DirectoryHelper.prototype, 'isEmpty', {
+  get: function() {
+    return this.content.length === 0;
+  }
+});
+
 DirectoryHelper.prototype.assertExists = function(ssf) {
   if (!this.exists) {
     throw new AssertionError('expected "' + this.path + '" to exist', {}, ssf);
@@ -45,6 +61,26 @@ DirectoryHelper.prototype.assertExists = function(ssf) {
 DirectoryHelper.prototype.assertDoesNotExist = function(ssf) {
   if (this.exists) {
     throw new AssertionError('expected "' + this.path + '" to not exist', {}, ssf);
+  }
+};
+
+DirectoryHelper.prototype.assertIsEmpty = function(ssf) {
+  this.assertExists(ssf);
+
+  if (!this.isEmpty) {
+    throw new AssertionError('expected "' + this.path + '" to be empty', {
+      showDiff: true,
+      actual: this.content,
+      expected: [],
+    }, ssf);
+  }
+};
+
+DirectoryHelper.prototype.assertIsNotEmpty = function(ssf) {
+  this.assertExists(ssf);
+
+  if (this.isEmpty) {
+    throw new AssertionError('expected "' + this.path + '" to not be empty', {}, ssf);
   }
 };
 

@@ -67,11 +67,14 @@ expect(file('foo.txt')).to.not.equal(file('bar.txt'));
 
 ### .to.be.empty
 
-Check if a file is empty:
+Check if a file or directory is empty:
 
 ```js
 expect(file('empty.txt')).to.be.empty;
 expect(file('foo.txt')).to.not.be.empty;
+
+expect(dir('empty')).to.be.empty;
+expect(dir('foo')).to.not.be.empty;
 ```
 
 
