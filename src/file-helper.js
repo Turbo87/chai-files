@@ -78,6 +78,7 @@ FileHelper.prototype.assertEquals = function(value, ssf) {
   var str = valueIsFile ? value.content : value;
   if (!this.equals(str)) {
     throw new AssertionError('expected "' + this.path + '" to equal "' + (valueIsFile ? value.path : value) + '"', {
+      showDiff: true,
       actual: this.content,
       expected: str,
     }, ssf);
@@ -103,6 +104,7 @@ FileHelper.prototype.assertIsEmpty = function(ssf) {
 
   if (!this.isEmpty) {
     throw new AssertionError('expected "' + this.path + '" to be empty', {
+      showDiff: true,
       actual: this.content,
       expected: '',
     }, ssf);
@@ -125,6 +127,7 @@ FileHelper.prototype.assertContains = function(str, ssf) {
   this.assertExists(ssf);
   if (!this.contains(str)) {
     throw new AssertionError('expected "' + this.path + '" to contain "' + str + '"', {
+      showDiff: true,
       actual: this.content,
       expected: str,
     }, ssf);
@@ -146,6 +149,7 @@ FileHelper.prototype.assertMatches = function(regex, ssf) {
   this.assertExists(ssf);
   if (!this.matches(regex)) {
     throw new AssertionError('expected "' + this.path + '" to match ' + regex, {
+      showDiff: true,
       actual: this.content,
       expected: regex,
     }, ssf);
