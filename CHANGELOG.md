@@ -5,6 +5,8 @@ chai-files changelog
 ## v1.2.0
 
 - `expect(file(...).to.be.empty`
+- `expect(dir(...)).to.exist`
+- `expect(dir(...)).to.be.empty`
 
 
 ## v1.1.0
