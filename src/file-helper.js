@@ -14,24 +14,23 @@ Object.defineProperty(FileHelper.prototype, 'absolutePath', {
   }
 });
 
-Object.defineProperty(FileHelper.prototype, 'exists', {
+Object.defineProperty(FileHelper.prototype, 'stats', {
   get: function() {
-    if (this._exists === null) {
-      var path = this.absolutePath;
-
-      if (fs.existsSync) {
-        this._exists = fs.existsSync(path);
-      } else {
-        try {
-          fs.accessSync(path, fs.F_OK);
-          this._exists = true;
-        } catch (e) {
-          this._exists = false
-        }
+    if (this._stats === undefined) {
+      try {
+        this._stats = fs.statSync(this.absolutePath);
+      } catch (e) {
+        this._stats = null;
       }
     }
 
-    return this._exists;
+    return this._stats;
+  }
+});
+
+Object.defineProperty(FileHelper.prototype, 'exists', {
+  get: function() {
+    return Boolean(this.stats);
   }
 });
 
@@ -54,6 +53,8 @@ Object.defineProperty(FileHelper.prototype, 'isEmpty', {
 FileHelper.prototype.assertExists = function(ssf) {
   if (!this.exists) {
     throw new AssertionError('expected "' + this.path + '" to exist', {}, ssf);
+  } else if (!this.stats.isFile()) {
+    throw new AssertionError('expected "' + this.path + '" to be a file', {}, ssf);
   }
 };
 

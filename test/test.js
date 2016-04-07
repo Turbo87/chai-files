@@ -17,6 +17,17 @@ describe('expect(file(...))', function() {
       expect(file('test/fixtures/foo.txt')).to.exist;
     });
 
+    it('fails for directories', function() {
+      expect(function() {
+        expect(file('test/fixtures')).to.exist;
+      }).to.throw(function(err) {
+        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures\" to be a file');
+        expect(err.showDiff).to.be.false;
+        expect(err.actual).to.not.exist;
+        expect(err.expected).to.not.exist;
+      });
+    });
+
     it('fails for missing files', function() {
       expect(function() {
         expect(file('test/fixtures/missing.txt')).to.exist;
