@@ -1,4 +1,5 @@
 var FileHelper = require('./file-helper').FileHelper;
+var DirectoryHelper = require('./dir-helper').DirectoryHelper;
 
 module.exports = function(chai, utils) {
   var Assertion = chai.Assertion;
@@ -6,10 +7,13 @@ module.exports = function(chai, utils) {
   /**
    * ### .exist
    *
-   * Asserts that a file exists.
+   * Asserts that a file or directory exists.
    *
    *     expect(file('index.js')).to.exist;
    *     expect(file('index.coffee')).to.not.exist;
+   *
+   *     expect(dir('foo')).to.exist;
+   *     expect(dir('missing')).to.not.exist;
    *
    * @name exist
    * @namespace BDD
@@ -19,7 +23,7 @@ module.exports = function(chai, utils) {
   function exist(_super) {
     return function() {
       var obj = this._obj;
-      if (obj instanceof FileHelper) {
+      if (obj instanceof FileHelper || obj instanceof DirectoryHelper) {
         var ssf = utils.flag(this, 'ssfi');
 
         if (utils.flag(this, 'negate')) {
@@ -82,10 +86,13 @@ module.exports = function(chai, utils) {
   /**
    * ### .empty
    *
-   * Asserts that a file is empty.
+   * Asserts that a file or directory is empty.
    *
    *     expect(file('empty.txt')).to.be.empty;
    *     expect(file('foo.txt')).to.not.be.empty;
+   *
+   *     expect(dir('empty')).to.be.empty;
+   *     expect(dir('foo')).to.not.be.empty;
    *
    * @name empty
    * @namespace BDD
@@ -95,7 +102,7 @@ module.exports = function(chai, utils) {
   function empty(_super) {
     return function() {
       var obj = this._obj;
-      if (obj instanceof FileHelper) {
+      if (obj instanceof FileHelper || obj instanceof DirectoryHelper) {
         var ssf = utils.flag(this, 'ssfi');
 
         if (utils.flag(this, 'negate')) {
