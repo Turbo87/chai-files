@@ -53,6 +53,9 @@ module.exports = function(chai, utils) {
    *     expect(file('foo.txt')).to.equal(file('foo-copy.txt'));
    *     expect(file('foo.txt')).to.not.equal(file('bar.txt'));
    *
+   *     expect('foo').to.equal(file('foo.txt'))
+   *     expect('foo').to.not.equal(file('foo.txt'))
+   *
    * @name match
    * @alias matches
    * @param {String|FileHelper} value
@@ -63,13 +66,20 @@ module.exports = function(chai, utils) {
   function assertEqual(_super) {
     return function(value) {
       var obj = this._obj;
-      if (obj instanceof FileHelper) {
-        var ssf = utils.flag(this, 'ssfi');
+      var ssf = utils.flag(this, 'ssfi');
 
+      if (obj instanceof FileHelper) {
         if (utils.flag(this, 'negate')) {
           obj.assertDoesNotEqual(value, ssf);
         } else {
           obj.assertEquals(value, ssf);
+        }
+
+      } else if (value instanceof FileHelper) {
+        if (utils.flag(this, 'negate')) {
+          value.assertDoesNotEqual(obj, ssf, true);
+        } else {
+          value.assertEquals(obj, ssf, true);
         }
 
       } else {

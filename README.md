@@ -53,6 +53,9 @@ Check if the file content equals a string:
 ```js
 expect(file('foo.txt')).to.equal('foo');
 expect(file('foo.txt')).to.not.equal('bar');
+
+expect('foo').to.equal(file('foo.txt'));
+expect('foo').to.not.equal(file('foo.txt'));
 ```
 
 
