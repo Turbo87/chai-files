@@ -66,27 +66,24 @@ module.exports = function(chai, utils) {
   function assertEqual(_super) {
     return function(value) {
       var obj = this._obj;
-      var file = null;
-      var match = value;
+      var ssf = utils.flag(this, 'ssfi');
 
       if (obj instanceof FileHelper) {
-        file = obj;
+        if (utils.flag(this, 'negate')) {
+          obj.assertDoesNotEqual(value, ssf);
+        } else {
+          obj.assertEquals(value, ssf);
+        }
 
       } else if (value instanceof FileHelper) {
-        file = value;
-        match = obj;
+        if (utils.flag(this, 'negate')) {
+          value.assertDoesNotEqual(obj, ssf, true);
+        } else {
+          value.assertEquals(obj, ssf, true);
+        }
 
       } else {
         _super.apply(this, arguments);
-        return;
-      }
-
-      var ssf = utils.flag(this, 'ssfi');
-
-      if (utils.flag(this, 'negate')) {
-        file.assertDoesNotEqual(match, ssf);
-      } else {
-        file.assertEquals(match, ssf);
       }
     };
   }

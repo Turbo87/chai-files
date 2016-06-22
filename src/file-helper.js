@@ -68,7 +68,7 @@ FileHelper.prototype.equals = function(str) {
   return this.content === str;
 };
 
-FileHelper.prototype.assertEquals = function(value, ssf) {
+FileHelper.prototype.assertEquals = function(value, ssf, invert) {
   var valueIsFile = (value instanceof FileHelper);
 
   this.assertExists(ssf);
@@ -78,7 +78,12 @@ FileHelper.prototype.assertEquals = function(value, ssf) {
 
   var str = valueIsFile ? value.content : value;
   if (!this.equals(str)) {
-    throw new AssertionError('expected "' + this.path + '" to equal "' + (valueIsFile ? value.path : value) + '"', {
+    var valueOrPath = valueIsFile ? value.path : value;
+    var message = invert ?
+      'expected "' + valueOrPath + '" to equal "' + this.path + '"' :
+      'expected "' + this.path + '" to equal "' + valueOrPath + '"';
+
+    throw new AssertionError(message, {
       showDiff: true,
       actual: this.content,
       expected: str,
@@ -86,7 +91,7 @@ FileHelper.prototype.assertEquals = function(value, ssf) {
   }
 };
 
-FileHelper.prototype.assertDoesNotEqual = function(value, ssf) {
+FileHelper.prototype.assertDoesNotEqual = function(value, ssf, invert) {
   var valueIsFile = (value instanceof FileHelper);
 
   this.assertExists(ssf);
@@ -96,7 +101,12 @@ FileHelper.prototype.assertDoesNotEqual = function(value, ssf) {
 
   var str = valueIsFile ? value.content : value;
   if (this.equals(str)) {
-    throw new AssertionError('expected "' + this.path + '" to not equal "' + (valueIsFile ? value.path : value) + '"', {}, ssf);
+    var valueOrPath = valueIsFile ? value.path : value;
+    var message = invert ?
+      'expected "' + valueOrPath + '" to not equal "' + this.path + '"' :
+      'expected "' + this.path + '" to not equal "' + valueOrPath + '"';
+
+    throw new AssertionError(message, {}, ssf);
   }
 };
 

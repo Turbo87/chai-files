@@ -395,7 +395,7 @@ describe('expect(string)', function() {
         expect(function() {
           expect('large solid object').to[method](file('test/fixtures/foo.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to equal \"large solid object\"');
+          expect(err.toString()).to.equal('AssertionError: expected \"large solid object\" to equal \"test/fixtures/foo.txt\"');
           expect(err.showDiff).to.be.true;
           expect(err.actual).to.contain('small fixture file');
           expect(err.expected).to.equal('large solid object');
@@ -427,8 +427,8 @@ describe('expect(string)', function() {
         expect(function() {
           expect('This is a small fixture file called "foo.txt"!\n').to.not[method](file('test/fixtures/foo.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/foo.txt\" to not ' +
-            'equal \"This is a small fixture file called \"foo.txt\"!\n\"');
+          expect(err.toString()).to.equal('AssertionError: expected \"This is a small fixture file called \"foo.txt\"!\n\" ' +
+            'to not equal \"test/fixtures/foo.txt\"');
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
