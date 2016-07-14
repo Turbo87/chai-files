@@ -39,7 +39,10 @@ describe('expect(dir(...))', function() {
       expect(function() {
         expect(dir('test/fixtures/missing')).to.exist;
       }).to.throw(function(err) {
-        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing\" to exist');
+        expect(err.toString())
+          .to.match(/^AssertionError: expected "test\/fixtures\/missing" to exist/)
+          .to.contain('parent path "test/fixtures" exists and contains:\n');
+
         expect(err.showDiff).to.be.false;
         expect(err.actual).to.not.exist;
         expect(err.expected).to.not.exist;
@@ -85,7 +88,7 @@ describe('expect(dir(...))', function() {
       expect(function() {
         expect(dir('test/fixtures/missing')).to.be.empty;
       }).to.throw(function(err) {
-        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing\" to exist');
+        expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing" to exist/);
         expect(err.showDiff).to.be.false;
         expect(err.actual).to.not.exist;
         expect(err.expected).to.not.exist;
@@ -113,7 +116,7 @@ describe('expect(dir(...))', function() {
       expect(function() {
         expect(dir('test/fixtures/missing')).to.not.be.empty;
       }).to.throw(function(err) {
-        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing\" to exist');
+        expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing" to exist/);
         expect(err.showDiff).to.be.false;
         expect(err.actual).to.not.exist;
         expect(err.expected).to.not.exist;
