@@ -38,6 +38,17 @@ describe('expect(file(...))', function() {
         expect(err.expected).to.not.exist;
       });
     });
+
+    it('fails for missing parent folders', function() {
+      expect(function() {
+        expect(file('test/missing/missing.txt')).to.exist;
+      }).to.throw(function(err) {
+        expect(err.toString()).to.equal('AssertionError: expected \"test/missing/missing.txt\" to exist');
+        expect(err.showDiff).to.be.false;
+        expect(err.actual).to.not.exist;
+        expect(err.expected).to.not.exist;
+      });
+    });
   });
 
   describe('.to.not.exist', function() {
