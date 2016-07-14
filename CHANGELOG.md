@@ -2,6 +2,11 @@
 chai-files changelog
 ==============================================================================
 
+## v1.4.0
+
+- extended exception messages for `expect(...).to.exist`
+
+
 ## v1.3.0
 
 - `expect(...).to.equal(file(...))`
