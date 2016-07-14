@@ -2,9 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var AssertionError = require('assertion-error');
 
-var dir = require('./dir-helper').dir;
-
-var MAX_FILE_LIST_LENGTH = 20;
+var existsMessage = require('./exists-message');
 
 function FileHelper(path) {
   this.path = path;
@@ -56,44 +54,7 @@ Object.defineProperty(FileHelper.prototype, 'isEmpty', {
 
 FileHelper.prototype.assertExists = function(ssf) {
   if (!this.exists) {
-    var extended = '';
-
-    function checkParent(_path) {
-      var parentPath = path.dirname(_path);
-      if (parentPath === '.') { return; }
-
-      var d = dir(parentPath);
-      if (!d.exists) {
-        extended += 'parent path "' + parentPath + '" does not exist.\n';
-
-        if (parentPath !== '/') {
-          checkParent(parentPath);
-        }
-      } else if (!d.stats.isDirectory()) {
-        extended += 'parent path "' + parentPath + '" exists and is a file.\n';
-
-      } else {
-        extended += 'parent path "' + parentPath + '" exists and contains:\n';
-
-        d.content.slice(0, MAX_FILE_LIST_LENGTH).forEach(function(child) {
-          var f = file(path.join(parentPath, child));
-          extended += '- ' + child + (f.stats.isDirectory() ? '/' : '') + '\n';
-        });
-
-        if (d.content.length > MAX_FILE_LIST_LENGTH) {
-          extended += '- [' + (d.content.length - MAX_FILE_LIST_LENGTH) + ' more...]';
-        }
-      }
-    }
-
-    checkParent(this.path);
-
-    var message = 'expected "' + this.path + '" to exist';
-    if (extended) {
-      message += '\n\n' + extended.trim();
-    }
-
-    throw new AssertionError(message, {}, ssf);
+    throw new AssertionError(existsMessage(this.path), {}, ssf);
   } else if (!this.stats.isFile()) {
     throw new AssertionError('expected "' + this.path + '" to be a file', {}, ssf);
   }
