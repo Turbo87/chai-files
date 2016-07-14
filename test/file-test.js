@@ -32,7 +32,13 @@ describe('expect(file(...))', function() {
       expect(function() {
         expect(file('test/fixtures/missing.txt')).to.exist;
       }).to.throw(function(err) {
-        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+        expect(err.toString())
+          .to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
+          .to.contain('parent path "test/fixtures" exists and contains:\n')
+          .to.contain('- bar.txt\n')
+          .to.contain('- empty/\n')
+          .to.contain('- empty.txt\n');
+
         expect(err.showDiff).to.be.false;
         expect(err.actual).to.not.exist;
         expect(err.expected).to.not.exist;
@@ -43,7 +49,40 @@ describe('expect(file(...))', function() {
       expect(function() {
         expect(file('test/missing/missing.txt')).to.exist;
       }).to.throw(function(err) {
-        expect(err.toString()).to.equal('AssertionError: expected \"test/missing/missing.txt\" to exist');
+        expect(err.toString())
+          .to.match(/^AssertionError: expected "test\/missing\/missing.txt" to exist/)
+          .to.contain('parent path "test/missing" does not exist.\n')
+          .to.contain('parent path "test" exists and contains:\n')
+          .to.contain('- fixtures/\n');
+
+        expect(err.showDiff).to.be.false;
+        expect(err.actual).to.not.exist;
+        expect(err.expected).to.not.exist;
+      });
+    });
+
+    it('fails for missing files if parent path is file', function() {
+      expect(function() {
+        expect(file('test/fixtures/bar.txt/foo.txt')).to.exist;
+      }).to.throw(function(err) {
+        expect(err.toString())
+          .to.match(/^AssertionError: expected "test\/fixtures\/bar.txt\/foo.txt" to exist/)
+          .to.contain('parent path "test/fixtures/bar.txt" exists and is a file.');
+
+        expect(err.showDiff).to.be.false;
+        expect(err.actual).to.not.exist;
+        expect(err.expected).to.not.exist;
+      });
+    });
+
+    it('fails for missing parent folders in absolute path', function() {
+      expect(function() {
+        expect(file('/tmp/missing/missing.txt')).to.exist;
+      }).to.throw(function(err) {
+        expect(err.toString())
+          .to.match(/^AssertionError: expected "\/tmp\/missing\/missing.txt" to exist/)
+          .to.contain('parent path "/tmp" exists and contains:\n');
+
         expect(err.showDiff).to.be.false;
         expect(err.actual).to.not.exist;
         expect(err.expected).to.not.exist;
@@ -91,7 +130,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/missing.txt')).to[method]('large solid object');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -119,7 +158,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to[method](file('test/fixtures/baz.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/baz.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -128,7 +167,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/baz.txt')).to[method](file('test/fixtures/foo.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/baz.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -161,7 +200,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/missing.txt')).to.not[method]('small fixture file');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -190,7 +229,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/foo.txt')).to.not[method](file('test/fixtures/baz.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/baz.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -199,7 +238,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/baz.txt')).to.not[method](file('test/fixtures/foo.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/baz.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/baz.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -228,7 +267,7 @@ describe('expect(file(...))', function() {
       expect(function() {
         expect(file('test/fixtures/missing.txt')).to.be.empty;
       }).to.throw(function(err) {
-        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+        expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
         expect(err.showDiff).to.be.false;
         expect(err.actual).to.not.exist;
         expect(err.expected).to.not.exist;
@@ -256,7 +295,7 @@ describe('expect(file(...))', function() {
       expect(function() {
         expect(file('test/fixtures/missing.txt')).to.not.be.empty;
       }).to.throw(function(err) {
-        expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+        expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
         expect(err.showDiff).to.be.false;
         expect(err.actual).to.not.exist;
         expect(err.expected).to.not.exist;
@@ -287,7 +326,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/missing.txt')).to[method]('large solid object');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -319,7 +358,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/missing.txt')).to.not[method]('small fixture file');
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -351,7 +390,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/missing.txt')).to[method](/large.*object/);
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -383,7 +422,7 @@ describe('expect(file(...))', function() {
         expect(function() {
           expect(file('test/fixtures/missing.txt')).to.not[method](/small.*file/);
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -417,7 +456,7 @@ describe('expect(string)', function() {
         expect(function() {
           expect('large solid object').to[method](file('test/fixtures/missing.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
@@ -450,7 +489,7 @@ describe('expect(string)', function() {
         expect(function() {
           expect('small fixture file').to.not[method](file('test/fixtures/missing.txt'));
         }).to.throw(function(err) {
-          expect(err.toString()).to.equal('AssertionError: expected \"test/fixtures/missing.txt\" to exist');
+          expect(err.toString()).to.match(/^AssertionError: expected "test\/fixtures\/missing.txt" to exist/)
           expect(err.showDiff).to.be.false;
           expect(err.actual).to.not.exist;
           expect(err.expected).to.not.exist;
