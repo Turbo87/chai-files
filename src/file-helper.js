@@ -2,6 +2,8 @@ var fs = require('fs');
 var path = require('path');
 var AssertionError = require('assertion-error');
 
+var existsMessage = require('./exists-message');
+
 function FileHelper(path) {
   this.path = path;
   this._exists = null;
@@ -52,7 +54,7 @@ Object.defineProperty(FileHelper.prototype, 'isEmpty', {
 
 FileHelper.prototype.assertExists = function(ssf) {
   if (!this.exists) {
-    throw new AssertionError('expected "' + this.path + '" to exist', {}, ssf);
+    throw new AssertionError(existsMessage(this.path), {}, ssf);
   } else if (!this.stats.isFile()) {
     throw new AssertionError('expected "' + this.path + '" to be a file', {}, ssf);
   }
