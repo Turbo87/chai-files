@@ -77,11 +77,12 @@ describe('expect(file(...))', function() {
 
     it('fails for missing parent folders in absolute path', function() {
       expect(function() {
-        expect(file('/tmp/missing/missing.txt')).to.exist;
+        expect(file('/foobar/missing/missing.txt')).to.exist;
       }).to.throw(function(err) {
         expect(err.toString())
-          .to.match(/^AssertionError: expected "\/tmp\/missing\/missing.txt" to exist/)
-          .to.contain('parent path "/tmp" exists and contains:\n');
+          .to.match(/^AssertionError: expected "\/foobar\/missing\/missing.txt" to exist/)
+          .to.contain('parent path "/foobar" does not exist.\n')
+          .to.contain('parent path "/" exists and contains:\n');
 
         expect(err.showDiff).to.be.false;
         expect(err.actual).to.not.exist;
