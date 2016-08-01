@@ -26,7 +26,7 @@
   "homepage": "https://github.com/Turbo87/chai-files#readme",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.4.5"
+    "mocha": "^3.0.0"
   },
   "dependencies": {
     "assertion-error": "^1.0.1"
